@@ -30,7 +30,7 @@ android {
         }
         debug {
         }
-        liveGo_youmi {
+        liveGo {
             applicationIdSuffix ".livego"
             signingConfig signingConfigs.release
             minifyEnabled false

@@ -167,28 +167,71 @@ public class LiveInfoDao {
 
     public static LiveInfo getLiveAddressByLivePage( LiveInfo liveInfo) {
         try {
-            Document doc = Jsoup.connect(liveInfo.getLivePage()).get();
-            Elements elements = doc.getElementsByAttributeValue("class", "videl-list");
             String liveAddress = "";
 
             if ("斗鱼".equals(liveInfo.getLivePlatform())){
+                Document doc = Jsoup.connect(liveInfo.getLivePage()).get();
+                Elements elements = doc.getElementsByAttributeValue("class", "videl-list");
                 liveAddress = elements.get(0).getElementsByTag("object").attr("data");
             } else if("战旗".equals(liveInfo.getLivePlatform())) {
 //                liveAddress = elements.get(0).getElementsByTag("iframe").attr("src");
                 return liveInfo;
             } else if("虎牙".equals(liveInfo.getLivePlatform())) {
-                liveAddress = elements.get(0).getElementsByTag("embed").attr("src");
+                Document doc = Jsoup.connect(liveInfo.getLivePage())
+                        .userAgent("Mozilla")
+                        .get();
+                Elements elements = doc.getElementsByTag("script");
+//                LogUtil.logDEBUG(LiveInfoDao.class, "elements:  " + elements);
+                for (Element element : elements) {
+                    String data = element.data();
+                    if(!TextUtils.isEmpty(data)) {
+                        String CHTOPID = "";
+                        String SUBCHID = "";
+                        String liveRoom_gid = "";
+                        String [] data2 = data.split(";");
+                        for (String d : data2) {
+                            LogUtil.logDEBUG(LiveInfoDao.class, "d:  " + d);
+                            if(d.contains("CHTOPID")) {
+                                LogUtil.logDEBUG(LiveInfoDao.class, "d.length:  " + d.length());
+                                LogUtil.logDEBUG(LiveInfoDao.class, "d.indexOf(\"'\"):  " + d.indexOf("'"));
+                                LogUtil.logDEBUG(LiveInfoDao.class, "d.lastIndexOf(\"'\"):  " + d.lastIndexOf("'"));
+                                CHTOPID = d.substring(d.indexOf("'") + 1, d.lastIndexOf("'") );
+                                LogUtil.logDEBUG(LiveInfoDao.class, "CHTOPID:" + CHTOPID);
+                            }
+                            if(d.contains("SUBCHID")) {
+                                SUBCHID = d.substring(d.indexOf("'") + 1, d.lastIndexOf("'") );
+//                                LogUtil.logDEBUG(LiveInfoDao.class, "SUBCHID:" + SUBCHID);
+                            }
+                            if(d.contains("liveRoom_gid")) {
+                                liveRoom_gid = d.substring(d.indexOf("'") + 1, d.lastIndexOf("'") );
+                                LogUtil.logDEBUG(LiveInfoDao.class, "liveRoom_gid:" + liveRoom_gid);
+                            }
+                        }
+                        String liveHtmlData = "<object name=\"flashRoomObj\" width=\"100%\" height=\"100%\"" +
+                                " id=\"flashRoomObj\" type=\"application/x-shockwave-flash\" " +
+                                "data=\"http://weblbs.yystatic.com/s/"+CHTOPID+"/"+SUBCHID+"/jsscene.swf\" style=\"visibility: visible;\">\n" +
+                                "<param name=\"quality\" value=\"high\">\n" +
+                                "<param name=\"bgcolor\" value=\"#1c1c1c\">\n" +
+                                "<param name=\"allowScriptAccess\" value=\"always\">\n" +
+                                "<param name=\"allowFullScreen\" value=\"true\">\n" +
+                                "<param name=\"wmode\" value=\"opaque\">\n" +
+                                "<param name=\"menu\" value=\"false\">\n" +
+                                "<param name=\"flashvars\" value=\"topSid="+CHTOPID+"&amp;subSid="+SUBCHID+"&amp;type=jsscene&amp;_yyAuth=12&amp;sessionid=C6D1BF80AFA000014733722C8440149D&amp;mid=C6D1BF80AF800001B3A7740815ADF400&amp;rso=&amp;rso_desc=&amp;from=&amp;vappid=10057&amp;gameId="+liveRoom_gid+"&amp;normalpub=1\">\n" +
+                                "</object>";
+                        liveInfo.setLiveHtmlData(liveHtmlData);
+                        break;
+                    }
+                }
+                return  liveInfo;
             } else if("龙珠".equals(liveInfo.getLivePlatform())) {
 //                liveAddress = elements.get(0).getElementsByTag("embed").attr("src");
 //                liveAddress = liveAddress + "&" + elements.get(0).getElementsByTag("embed").attr("flashvars");
                 return liveInfo;
             } else if("Twitch".equals(liveInfo.getLivePlatform())) {
-                liveAddress = elements.get(0).getElementsByTag("object").attr("data");
             } else if("火猫".equals(liveInfo.getLivePlatform())) {
-                liveAddress = elements.get(0).getElementsByTag("iframe").attr("src");
             }
 
-            LogUtil.logVERBOSE(LiveInfoDao.class, "liveAddress:  " + liveAddress);
+            LogUtil.logDEBUG(LiveInfoDao.class, "liveAddress:  " + liveAddress);
             liveInfo.setLiveAddress(liveAddress);
 
         } catch (IOException e) {
@@ -240,7 +283,7 @@ public class LiveInfoDao {
 //                   allLiveInfos = addLiveInfos(allLiveInfos,getZhanqiLiveInfos());
                    break;
                case 虎牙:
-                   allLiveInfos = addLiveInfos(allLiveInfos,getHuyaLiveInfos());
+//                   allLiveInfos = addLiveInfos(allLiveInfos,getHuyaLiveInfos());
                    break;
                case 龙珠:
 //                   allLiveInfos = addLiveInfos(allLiveInfos,getLongzhuLiveInfos());
@@ -290,7 +333,7 @@ public class LiveInfoDao {
     public static List<LiveInfo>  getZhanqiLiveInfos(int page) {
         List<LiveInfo> liveInfos = new ArrayList<LiveInfo>();
         try {
-            int litmit = 12;
+            int litmit = 30;
 //            int start_index =  (page-1) * litmit;
             String url = "http://www.zhanqi.tv/api/static/live.hots/" + litmit + "-" + page +".json";
             byte[] bytes = NetUtils.getByteArrayFromNetwork(url);
@@ -370,11 +413,59 @@ public class LiveInfoDao {
 
     /**
      * 获取 虎牙 直播信息
+     * 起始页 1
      * @return
      */
-    public static List<LiveInfo>  getHuyaLiveInfos() {
+    public static List<LiveInfo>  getHuyaLiveInfos(int page) {
+        List<LiveInfo> liveInfos = new ArrayList<LiveInfo>();
+        try {
+            int litmit = 30;
+            int start_index =  (page-1) * litmit;
+            String url = "http://www.huya.com/index.php?m=Live&do=ajaxAllLiveByPage&page="+page+"&pageNum="+ litmit;
+            byte[] bytes = NetUtils.getByteArrayFromNetwork(url, NetUtils.UserAgent[0]);
+//            LogUtil.logINFO(LiveInfoDao.class, "url: " + url);
+//            LogUtil.logINFO(LiveInfoDao.class, "bytes: " + new String(bytes));
+            JSONObject jsonObject = new JSONObject(new String(bytes));
+            JSONArray jsonArray = jsonObject.getJSONObject("data").getJSONArray("list");
+            for (int i = 0; i < jsonArray.length() ; i++) {
+                JSONObject channel = jsonArray.getJSONObject(i);
+                String anchorTitle = channel.getString("nick");
+                String liveIcon = channel.getString("screenshot");
+                String livePage = "http://www.huya.com/" + channel.getString("privateHost") ;
+                String viewerNum = channel.getString("totalCount");
+                String anchorName =  channel.getString("privateHost");
+                String anchorIcon = channel.getString("avatar180");
+                String livePlatform = "虎牙";
+                String gameSort = channel.getString("gameFullName");
 
-        return null;
+//                LogUtil.logINFO(LiveInfoDao.class, "anchorTitle: " + anchorTitle);
+//                LogUtil.logINFO(LiveInfoDao.class, "liveIcon: " + liveIcon);
+//                LogUtil.logINFO(LiveInfoDao.class, "livePage: " + livePage);
+//                LogUtil.logINFO(LiveInfoDao.class, "viewerNum: " + viewerNum);
+//                LogUtil.logINFO(LiveInfoDao.class, "anchorName: " + anchorName);
+//                LogUtil.logINFO(LiveInfoDao.class, "livePlatform: " + livePlatform);
+//                LogUtil.logINFO(LiveInfoDao.class, "gameSort: " + gameSort);
+//                LogUtil.logINFO(LiveInfoDao.class, "liveHtmlData: " + liveHtmlData);
+
+                LiveInfo liveInfo = new LiveInfo();
+                liveInfo.setAnchorTitle(anchorTitle);
+                liveInfo.setLiveIcon(liveIcon);
+                liveInfo.setLivePage(livePage);
+                liveInfo.setViewerNum(viewerNum);
+                liveInfo.setAnchorName(anchorName);
+                liveInfo.setLivePlatform(livePlatform);
+                liveInfo.setAnchorIcon(anchorIcon);
+                liveInfo.setGameSort(gameSort);
+//                liveInfo.setLiveHtmlData(liveHtmlData);
+                liveInfos.add(liveInfo);
+            }
+
+        }catch (JSONException e) {
+            LogUtil.logERROR(LiveInfoDao.class, e);
+        } catch (Exception e) {
+            LogUtil.logERROR(LiveInfoDao.class, e);
+        }
+        return liveInfos;
     }
 
     /**
@@ -384,7 +475,7 @@ public class LiveInfoDao {
     public static List<LiveInfo>  getLongzhuLiveInfos(int page) {
         List<LiveInfo> liveInfos = new ArrayList<LiveInfo>();
         try {
-            int litmit = 12;
+            int litmit = 30;
             int start_index =  (page-1) * litmit;
             String url = "http://api.plu.cn/tga/streams/?game=0&max-results=" + litmit +
                     "&start-index=" + start_index  + "&sort-by=top&filter=0&";
@@ -498,7 +589,7 @@ public class LiveInfoDao {
     public static List<LiveInfo>  getPandaLiveInfos(int page) {
         List<LiveInfo> liveInfos = new ArrayList<LiveInfo>();
         try {
-            int litmit = 12;
+            int litmit = 30;
 //            int start_index =  (page-1) * litmit;
             String url = "http://www.panda.tv/live_lists?status=2&order=person_num&token=&pageno="+
                     page +"&pagenum="+ litmit ;

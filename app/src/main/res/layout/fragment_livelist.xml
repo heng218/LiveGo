@@ -5,7 +5,7 @@
     <com.v.heng.library.xlistview.XListView
         android:id="@+id/xListView"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:cacheColorHint="@null"
         android:divider="@null"
         android:dividerHeight="5dp"

@@ -86,7 +86,9 @@ public class ApiHelper {
                     liveInfos = LiveInfoDao.getZhanqiLiveInfos(page);
                 } else if("熊猫".equals(platform)) {
                     liveInfos = LiveInfoDao.getPandaLiveInfos(page);
-                } else {
+                } else if("虎牙".equals(platform)) {
+                    liveInfos = LiveInfoDao.getHuyaLiveInfos(page);
+                }else {
                     liveInfos = LiveInfoDao.getLiveInfosByLaoyuegou_platform(platform, page);
                 }
 

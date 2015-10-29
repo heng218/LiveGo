@@ -9,7 +9,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.text.TextUtils;
 import android.webkit.JavascriptInterface;
 
 import com.v.heng.livego.R;
@@ -126,15 +125,18 @@ public class LiveDetailActivity extends BaseActivity {
     };
 
 
-
+    /**
+     * 加载 播放 数据
+     * @param liveInfo
+     */
     public void loadFlash(LiveInfo liveInfo) {
         if (checkinstallornotadobeflashapk()) {
-            if(TextUtils.isEmpty(liveInfo.getLiveAddress())) {
-//                String data = "<video width=\"100%\" height=\"100%\" controls=\"controls\"> <source src=\"http://dlhls.cdn.zhanqi.tv/zqlive/88050_ZFHvJ.m3u8\"> </video>";
+            if("斗鱼".equals(liveInfo.getLivePlatform())) {
+                webView.loadUrl(liveInfo.getLiveAddress());
+            } else {
+//                String data = "<object name=\"flashRoomObj\" width=\"100%\" height=\"100%\" id=\"flashRoomObj\" type=\"application/x-shockwave-flash\" data=\"http://weblbs.yystatic.com/s/99425467/2330849298/jsscene.swf\" style=\"visibility: visible;\"><param name=\"quality\" value=\"high\"><param name=\"bgcolor\" value=\"#1c1c1c\"><param name=\"allowScriptAccess\" value=\"always\"><param name=\"allowFullScreen\" value=\"true\"><param name=\"wmode\" value=\"opaque\"><param name=\"menu\" value=\"false\"><param name=\"flashvars\" value=\"topSid=99425467&amp;subSid=2330849298&amp;type=jsscene&amp;_yyAuth=12&amp;sessionid=C6D1BF80AFA000014733722C8440149D&amp;mid=C6D1BF80AF800001B3A7740815ADF400&amp;rso=&amp;rso_desc=&amp;from=&amp;vappid=10057&amp;gameId=1&amp;normalpub=1\"></object>";
 //                webView.loadDataWithBaseURL(null, data, "text/html","UTF-8", null);
                 webView.loadDataWithBaseURL(null, liveInfo.getLiveHtmlData(), "text/html","UTF-8", null);
-            } else {
-                webView.loadUrl(liveInfo.getLiveAddress());
             }
         } else {
             installadobeapk();
