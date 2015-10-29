@@ -1,0 +1,24 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal"
+    android:background="#e8f0f6"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:gravity="center"
+    >
+
+    <TextView
+        android:id="@+id/textTv"
+        android:layout_width="fill_parent"
+        android:layout_height="80dp"
+        android:gravity="center"
+        android:text="斗鱼"
+        android:textColor="@color/text_black"
+        android:textSize="22sp"
+        android:clickable="false"
+        android:focusable="false"
+        />
+
+
+</LinearLayout>

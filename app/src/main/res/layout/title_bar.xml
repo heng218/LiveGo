@@ -1,0 +1,33 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    tools:context=".MainActivity"
+    android:background="#55567798"
+    >
+
+
+    <TextView
+        android:id="@+id/leftTv"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_centerVertical="true"
+        android:text="liveGo"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:drawableLeft="@mipmap/abc_ic_ab_back_holo_dark"
+        />
+
+    <TextView
+        android:id="@+id/rightTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:background="@mipmap/abc_ic_menu_moreoverflow_normal_holo_dark"
+        />
+
+
+</RelativeLayout>

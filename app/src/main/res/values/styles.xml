@@ -1,0 +1,13 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="android:Theme.NoTitleBar.Fullscreen">
+    </style>
+
+    <!-- 圆形进度条 -->
+    <style name="progressBarRound" parent="@android:style/Widget.ProgressBar.Inverse">
+        <item name="android:indeterminateDrawable">@anim/progress_image</item>
+    </style>
+
+
+</resources>

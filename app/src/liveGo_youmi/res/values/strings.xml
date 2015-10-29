@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">LiveGo</string>
+    <string name="ad_channel">youmi</string>
+    <string name="dev_mode">release</string>
+    <string name="umeng_appkey">55e2781de0f55a3cca004ef0</string>
+
+</resources>

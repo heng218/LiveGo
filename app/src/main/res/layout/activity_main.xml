@@ -1,0 +1,61 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:background="@color/white"
+    android:orientation="vertical"
+    >
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        />
+
+    <RadioGroup
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal"
+        android:gravity="bottom"
+        android:visibility="gone"
+        >
+        <RadioButton
+            android:id="@+id/allLiveRadioBtn"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:background="@drawable/radiobtn_mian_x"
+            android:gravity="center"
+            android:text="直播"
+            android:checked="true"
+            />
+        <RadioButton
+            android:id="@+id/platformRadioBtn"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:background="@drawable/radiobtn_mian_x"
+            android:gravity="center"
+            android:text="平台"
+            android:layout_marginLeft="0.5dp"
+            android:checked="false" />
+        <RadioButton
+            android:id="@+id/gameRadioBtn"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:background="@drawable/radiobtn_mian_x"
+            android:gravity="center"
+            android:text="游戏"
+            android:layout_marginLeft="0.5dp"
+            />
+    </RadioGroup>
+
+
+
+</LinearLayout>

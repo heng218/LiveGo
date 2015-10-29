@@ -1,0 +1,38 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
+
+    <item android:id="@+id/action_search"
+        android:title="action_search"
+        android:icon="@mipmap/abc_ic_search"
+        app:showAsAction="always|collapseActionView"
+        app:actionViewClass="android.support.v7.widget.SearchView" />
+
+    <item android:id="@+id/action_share"
+        android:title="share"
+        android:icon="@mipmap/abc_ic_menu_share_holo_dark"
+        app:showAsAction="always|collapseActionView"
+        app:actionProviderClass="android.support.v7.widget.ShareActionProvider"
+        />
+
+    <item
+        android:orderInCategory="100"
+        android:title="类别"
+        android:icon="@mipmap/ic_launcher"
+        app:showAsAction="always|" />
+    <item
+        android:orderInCategory="100"
+        android:title="平台"
+        android:icon="@mipmap/ic_launcher"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:title="action_settings"
+        android:icon="@mipmap/ic_launcher"
+        app:showAsAction="ifRoom" />
+
+
+</menu>
