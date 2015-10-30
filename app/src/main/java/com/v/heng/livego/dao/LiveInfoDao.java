@@ -33,7 +33,7 @@ public class LiveInfoDao {
 
     // 直播平台
     public enum LivePlatform {
-        斗鱼, 虎牙, 龙珠, 战旗, 熊猫, Twitch, 火猫
+        斗鱼, 战旗, 虎牙, 龙珠, 熊猫, 火猫, Twitch,
     }
     // 游戏类别
     public enum GameSort {
@@ -481,6 +481,7 @@ public class LiveInfoDao {
             String url = "http://api.plu.cn/tga/streams/?game=0&max-results=" + litmit +
                     "&start-index=" + start_index  + "&sort-by=top&filter=0&";
             byte[] bytes = NetUtils.getByteArrayFromNetwork(url);
+            LogUtil.logINFO(LiveInfoDao.class, "url: " + url);
 //            LogUtil.logINFO(LiveInfoDao.class, "bytes: " + new String(bytes));
             JSONObject jsonObject = new JSONObject(new String(bytes));
             JSONArray jsonArray = jsonObject.getJSONObject("data").getJSONArray("items");
@@ -495,30 +496,16 @@ public class LiveInfoDao {
                 String livePlatform = "龙珠";
                 String gameSort = jsonArray.getJSONObject(i).getJSONArray("game").getJSONObject(0).getString("Name");
                 int vid =  channel.getInt("vid");
-                String liveHtmlData = vid > 0 ? "<embed \n" +
-                        "wmode=\"opaque\" \n" +
-                        "flashvars=\"vid="+ vid +"&amp;\n" +
-                        "\tloadingswf=http://imgcache.qq.com/minivideo_v1/vd/res/skins/longzhu_loading.swf&amp;\n" +
-                        "\tvurl=http://zb.v.qq.com:1863/?progid="+ vid +"&amp;\n" +
-                        "\tsktype=live&amp;\n" +
-                        "\tfunCnlInfo=TenVideo_FlashLive_GetChannelInfo&amp;\n" +
-                        "\tfunTopUrl=TenVideo_FlashLive_GetTopUrl&amp;\n" +
-                        "\tfunLogin=TenVideo_FlashLive_IsLogin&amp;\n" +
-                        "\tfunOpenLogin=TenVideo_FlashLive_OpenLogin&amp;\n" +
-                        "\tfunSwitchPlayer=TenVideo_FlashLive_SwitchPlayer&amp;\n" +
-                        "\ttxvjsv=2.0&amp;\n" +
-                        "\tshowcfg=1&amp;\n" +
-                        "\tshare=1&amp;\n" +
-                        "\tfull=1&amp;\n" +
-                        "\tautoplay=1&amp;\n" +
-                        "\tp=true\" \n" +
-                        "src=\"http://imgcache.qq.com/minivideo_v1/vd/res/TencentPlayerLive.swf?max_age=86400&amp;v="+ vid +" \n" +
-                        "quality=\"high\" \n" +
-                        "name=\"tenvideo_flash_player_1429855293134\" \n" +
-                        "id=\"tenvideo_flash_player_1429855293134\" \n" +
-                        "bgcolor=\"#000000\" width=\"100%\" height=\"100%\" align=\"middle\" \n" +
-                        "\tallowscriptaccess=\"always\" allowfullscreen=\"true\" \n" +
-                        "type=\"application/x-shockwave-flash\" pluginspage=\"http://get.adobe.com/cn/flashplayer/\"/>"
+                String liveHtmlData = vid > 0 ?
+                        "<embed wmode=\"opaque\" \n" +
+                                "    flashvars=\"vid="+vid+"&amp;\n" +
+                                "    loadingswf=http://imgcache.qq.com/minivideo_v1/vd/res/skins/longzhu_loading.swf&amp;vurl=http://zb.v.qq.com:1863/?progid="+vid+"&amp;sktype=live&amp;funCnlInfo=TenVideo_FlashLive_GetChannelInfo&amp;funTopUrl=TenVideo_FlashLive_GetTopUrl&amp;funLogin=TenVideo_FlashLive_IsLogin&amp;funOpenLogin=TenVideo_FlashLive_OpenLogin&amp;funSwitchPlayer=TenVideo_FlashLive_SwitchPlayer&amp;txvjsv=2.0&amp;showcfg=1&amp;share=1&amp;full=1&amp;autoplay=1&amp;p=true\" \n" +
+                                "    src=\"http://imgcache.qq.com/minivideo_v1/vd/res/TencentPlayerLive.swf?max_age=86400&amp;v="+vid+"\" \n" +
+                                "    quality=\"low\" name=\"tenvideo_flash_player_1429855293134\" \n" +
+                                "    id=\"tenvideo_flash_player_1429855293134\" bgcolor=\"#000000\" \n" +
+                                "    width=\"100%\" height=\"100%\" align=\"middle\" allowscriptaccess=\"always\" \n" +
+                                "    allowfullscreen=\"true\" type=\"application/x-shockwave-flash\" \n" +
+                                "    pluginspage=\"http://get.adobe.com/cn/flashplayer/\">"
                         :
                         "<embed \n" +
                         "width=\"100%\" \n" +

@@ -41,7 +41,9 @@
             android:screenOrientation="landscape" />
         <activity
             android:name="com.v.heng.livego.ui.LiveDetailStreamActivity"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape"
+            android:process=":vitamio"
+            />
 
         <!-- setting -->
         <activity

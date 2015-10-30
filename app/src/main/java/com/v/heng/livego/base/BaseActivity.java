@@ -28,7 +28,7 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
     private boolean isExit = false;
 
     LinearLayout baseLayout;
-    View titleBarView;
+    public View titleBarView;
     LayoutParams params_warp = new LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
     LayoutParams params_fill = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
     public TextView leftTv, rightTv;

@@ -8,6 +8,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.v.heng.livego.R;
@@ -20,12 +22,14 @@ import com.v.heng.livego.utils.Utils;
 import net.youmi.android.spot.SpotManager;
 
 import io.vov.vitamio.MediaPlayer;
+import io.vov.vitamio.Vitamio;
 
 public class LiveDetailStreamActivity extends BaseActivity implements MediaPlayer.OnBufferingUpdateListener,
         MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnVideoSizeChangedListener, SurfaceHolder.Callback {
 
 
     private LiveInfo liveInfo;
+    private Dialog progressDialog;
 
     private int mVideoWidth;
     private int mVideoHeight;
@@ -47,13 +51,15 @@ public class LiveDetailStreamActivity extends BaseActivity implements MediaPlaye
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setBaseContentView(R.layout.activity_live_detail_stream);
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);  //设置屏幕常亮
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);  //设置屏幕常亮
 
         liveInfo = (LiveInfo) getIntent().getSerializableExtra("LiveInfo");
 
+        initTitle();
+
         initViews();
 
-        initData();
+//        initData();
 
     }
 
@@ -67,25 +73,41 @@ public class LiveDetailStreamActivity extends BaseActivity implements MediaPlaye
     @Override
     protected void onPause() {
         super.onPause();
+        releaseMediaPlayer();
+        doCleanUp();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        releaseMediaPlayer();
+        doCleanUp();
+    }
+
+    public void initTitle() {
+        titleBarView.setVisibility(View.GONE);
     }
 
     public void initViews() {
+        Vitamio.initialize(LiveDetailStreamActivity.this);
         mPreview = (SurfaceView) findViewById(R.id.surface);
         holder = mPreview.getHolder();
         holder.addCallback(this);
         holder.setFormat(PixelFormat.RGBA_8888);
         extras = getIntent().getExtras();
+
+        progressDialog = showProgressDialog(this,"",false);
     }
 
 
     public void initData() {
-        if ("龙珠".equals(liveInfo.getLivePlatform())
-                || "战旗".equals(liveInfo.getLivePlatform())
-                || "熊猫".equals(liveInfo.getLivePlatform())) {
-        } else {
-            Dialog dialog = showProgressDialog(this, "", false);
-            ApiHelper.getLiveAddressByLivePage(dialog, handler, liveInfo);
-        }
+//        if ("龙珠".equals(liveInfo.getLivePlatform())
+//                || "战旗".equals(liveInfo.getLivePlatform())
+//                || "熊猫".equals(liveInfo.getLivePlatform())) {
+//        } else {
+//            Dialog dialog = showProgressDialog(this, "", false);
+//            ApiHelper.getLiveAddressByLivePage(dialog, handler, liveInfo);
+//        }
     }
 
     public void initAds() {
@@ -147,6 +169,13 @@ public class LiveDetailStreamActivity extends BaseActivity implements MediaPlaye
 
         } catch (Exception e) {
             LogUtil.logERROR(getClass(), e);
+        }
+    }
+
+    private void releaseMediaPlayer() {
+        if (mMediaPlayer != null) {
+            mMediaPlayer.release();
+            mMediaPlayer = null;
         }
     }
 
@@ -214,7 +243,10 @@ public class LiveDetailStreamActivity extends BaseActivity implements MediaPlaye
      */
     @Override
     public void onBufferingUpdate(MediaPlayer mp, int percent) {
-
+//        LogUtil.logDEBUG(getClass(), "onBufferingUpdate: " + percent);
+        if(progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
     }
 
     /**
@@ -224,7 +256,7 @@ public class LiveDetailStreamActivity extends BaseActivity implements MediaPlaye
      */
     @Override
     public void onCompletion(MediaPlayer mp) {
-
+        LogUtil.logDEBUG(getClass(), "onCompletion: "  );
     }
 
     /**
@@ -234,8 +266,10 @@ public class LiveDetailStreamActivity extends BaseActivity implements MediaPlaye
      */
     @Override
     public void onPrepared(MediaPlayer mp) {
+        LogUtil.logDEBUG(getClass(), "onPrepared: "  );
         mIsVideoReadyToBePlayed = true;
         if (mIsVideoReadyToBePlayed && mIsVideoSizeKnown) {
+            mMediaPlayer.setBufferSize(512 * 1024);
             startVideoPlayback();
         }
     }
@@ -249,6 +283,7 @@ public class LiveDetailStreamActivity extends BaseActivity implements MediaPlaye
      */
     @Override
     public void onVideoSizeChanged(MediaPlayer mp, int width, int height) {
+        LogUtil.logDEBUG(getClass(), "onVideoSizeChanged: "  );
         if (width == 0 || height == 0) {
             return;
         }

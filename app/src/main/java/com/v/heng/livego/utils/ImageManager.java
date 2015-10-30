@@ -383,10 +383,13 @@ public class ImageManager {
                                     if (bitmap != null && url != null) {
                                         // 写入SD卡
                                         if (imageRef.width != 0 && imageRef.height != 0) {
-                                            mDiskCache.put(url + imageRef.width + imageRef.height, bitmap);
+                                            /**
+                                             * ！！！！！！！！！！ liveGo 不用Disk cache
+                                             */
+//                                            mDiskCache.put(url + imageRef.width + imageRef.height, bitmap);
                                             mMemoryCache.put(url + imageRef.width + imageRef.height, bitmap);
                                         } else {
-                                            mDiskCache.put(url, bitmap);
+//                                            mDiskCache.put(url, bitmap);
                                             mMemoryCache.put(url, bitmap);
                                         }
                                         isFromNet = true;

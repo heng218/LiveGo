@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.View;
 import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
 import android.widget.RelativeLayout;
@@ -79,6 +80,7 @@ public class LiveDetailActivity extends BaseActivity {
 
 
     public void initTitle() {
+        titleBarView.setVisibility(View.GONE);
 //        rightTv.setVisibility(View.VISIBLE);
 //        rightTv.setText("小提示：若视频卡顿 请切换普通源观看");
 //        rightTv.setBackgroundResource(0);
@@ -137,20 +139,12 @@ public class LiveDetailActivity extends BaseActivity {
             if("斗鱼".equals(liveInfo.getLivePlatform())) {
                 webView.loadUrl(liveInfo.getLiveAddress());
             } else {
-                String data = "<object align=\"middle\" width=\"100%\" height=\"100%\" id=\"swfobject-1\" type=\"application/x-shockwave-flash\" \n" +
-                        "data=\"http://player.twitch.tv/vendor/TwitchPlayer.11747f76.swf\" \n" +
-                        "style=\"visibility: visible;\">\n" +
-                        "<param name=\"bgcolor\" value=\"#000\">\n" +
-                        "<param name=\"allowscriptaccess\" value=\"always\">\n" +
-                        "<param name=\"allowfullscreen\" value=\"true\">\n" +
-                        "<param name=\"wmode\" value=\"direct\">\n" +
-                        "<param name=\"flashvars\" value=\"eventsCallback=window._BackendFlash_emitEvents&amp;eventsContext=1&amp;initCallback=null\">\n" +
-                        "</object>";
-                webView.loadDataWithBaseURL(null, data, "text/html","UTF-8", null);
-//                webView.loadDataWithBaseURL(null, liveInfo.getLiveHtmlData(), "text/html", "UTF-8", null);
+//                String data = "<embed wmode=\"opaque\" flashvars=\"vid=242940602&amp;loadingswf=http://imgcache.qq.com/minivideo_v1/vd/res/skins/longzhu_loading.swf&amp;vurl=http://zb.v.qq.com:1863/?progid=242940602&amp;sktype=live&amp;funCnlInfo=TenVideo_FlashLive_GetChannelInfo&amp;funTopUrl=TenVideo_FlashLive_GetTopUrl&amp;funLogin=TenVideo_FlashLive_IsLogin&amp;funOpenLogin=TenVideo_FlashLive_OpenLogin&amp;funSwitchPlayer=TenVideo_FlashLive_SwitchPlayer&amp;txvjsv=2.0&amp;showcfg=1&amp;share=1&amp;full=1&amp;autoplay=1&amp;p=true\" src=\"http://imgcache.qq.com/minivideo_v1/vd/res/TencentPlayerLive.swf?max_age=86400&amp;v=242940602\" quality=\"high\" name=\"tenvideo_flash_player_1429855293134\" id=\"tenvideo_flash_player_1429855293134\" bgcolor=\"#000000\" width=\"100%\" height=\"100%\" align=\"middle\" allowscriptaccess=\"always\" allowfullscreen=\"true\" type=\"application/x-shockwave-flash\" pluginspage=\"http://get.adobe.com/cn/flashplayer/\">";
+//                webView.loadDataWithBaseURL(null, data, "text/html","UTF-8", null);
+                webView.loadDataWithBaseURL(null, liveInfo.getLiveHtmlData(), "text/html", "UTF-8", null);
 
                 RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) webView.getLayoutParams();
-                layoutParams.setMargins(-12, -12, -12 , 18);
+                layoutParams.setMargins(-12, -12, -12 , 12);
             }
         } else {
             installadobeapk();
