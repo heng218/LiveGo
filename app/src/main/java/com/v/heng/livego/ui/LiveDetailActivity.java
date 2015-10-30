@@ -9,7 +9,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
+import android.widget.RelativeLayout;
 
 import com.v.heng.livego.R;
 import com.v.heng.livego.base.BaseActivity;
@@ -36,6 +38,7 @@ public class LiveDetailActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setBaseContentView(R.layout.activity_live_detail);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);  //设置屏幕常亮
 
         liveInfo = (LiveInfo) getIntent().getSerializableExtra("LiveInfo");
 
@@ -134,9 +137,20 @@ public class LiveDetailActivity extends BaseActivity {
             if("斗鱼".equals(liveInfo.getLivePlatform())) {
                 webView.loadUrl(liveInfo.getLiveAddress());
             } else {
-//                String data = "<object name=\"flashRoomObj\" width=\"100%\" height=\"100%\" id=\"flashRoomObj\" type=\"application/x-shockwave-flash\" data=\"http://weblbs.yystatic.com/s/99425467/2330849298/jsscene.swf\" style=\"visibility: visible;\"><param name=\"quality\" value=\"high\"><param name=\"bgcolor\" value=\"#1c1c1c\"><param name=\"allowScriptAccess\" value=\"always\"><param name=\"allowFullScreen\" value=\"true\"><param name=\"wmode\" value=\"opaque\"><param name=\"menu\" value=\"false\"><param name=\"flashvars\" value=\"topSid=99425467&amp;subSid=2330849298&amp;type=jsscene&amp;_yyAuth=12&amp;sessionid=C6D1BF80AFA000014733722C8440149D&amp;mid=C6D1BF80AF800001B3A7740815ADF400&amp;rso=&amp;rso_desc=&amp;from=&amp;vappid=10057&amp;gameId=1&amp;normalpub=1\"></object>";
-//                webView.loadDataWithBaseURL(null, data, "text/html","UTF-8", null);
-                webView.loadDataWithBaseURL(null, liveInfo.getLiveHtmlData(), "text/html","UTF-8", null);
+                String data = "<object align=\"middle\" width=\"100%\" height=\"100%\" id=\"swfobject-1\" type=\"application/x-shockwave-flash\" \n" +
+                        "data=\"http://player.twitch.tv/vendor/TwitchPlayer.11747f76.swf\" \n" +
+                        "style=\"visibility: visible;\">\n" +
+                        "<param name=\"bgcolor\" value=\"#000\">\n" +
+                        "<param name=\"allowscriptaccess\" value=\"always\">\n" +
+                        "<param name=\"allowfullscreen\" value=\"true\">\n" +
+                        "<param name=\"wmode\" value=\"direct\">\n" +
+                        "<param name=\"flashvars\" value=\"eventsCallback=window._BackendFlash_emitEvents&amp;eventsContext=1&amp;initCallback=null\">\n" +
+                        "</object>";
+                webView.loadDataWithBaseURL(null, data, "text/html","UTF-8", null);
+//                webView.loadDataWithBaseURL(null, liveInfo.getLiveHtmlData(), "text/html", "UTF-8", null);
+
+                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) webView.getLayoutParams();
+                layoutParams.setMargins(-12, -12, -12 , 18);
             }
         } else {
             installadobeapk();
@@ -222,7 +236,12 @@ public class LiveDetailActivity extends BaseActivity {
                 super.onBackPressed();
             }
         } else {
-            super.onBackPressed();
+            if(webView.canGoBack()) {
+                webView.goBack();
+                loadFlash(liveInfo);
+            } else {
+                super.onBackPressed();
+            }
         }
     }
 

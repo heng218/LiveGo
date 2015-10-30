@@ -52,6 +52,7 @@ dependencies {
     compile project(':library_dialog')
     compile project(':library_listview_gridview')
     compile project(':library_menu_title')
+    compile project(':library_vitamio')
     compile files('libs/umeng-update-v2.6.0.1.jar')
     compile files('libs/jsoup-1.8.3.jar')
     compile 'com.android.support:multidex:1.0.0'

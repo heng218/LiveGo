@@ -1,1 +1,2 @@
-include ':app', ':library_dialog', ':library_listview_gridview', ':library_menu_title'
+include ':app', ':library_dialog', ':library_listview_gridview', ':library_menu_title',
+        ':library_vitamio'

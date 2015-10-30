@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/library_dialog/library_dialog.iml" filepath="$PROJECT_DIR$/library_dialog/library_dialog.iml" />
       <module fileurl="file://$PROJECT_DIR$/library_listview_gridview/library_listview_gridview.iml" filepath="$PROJECT_DIR$/library_listview_gridview/library_listview_gridview.iml" />
       <module fileurl="file://$PROJECT_DIR$/library_menu_title/library_menu_title.iml" filepath="$PROJECT_DIR$/library_menu_title/library_menu_title.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library_vitamio/library_vitamio.iml" filepath="$PROJECT_DIR$/library_vitamio/library_vitamio.iml" />
       <module fileurl="file://$PROJECT_DIR$/liveGo.iml" filepath="$PROJECT_DIR$/liveGo.iml" />
     </modules>
   </component>

@@ -34,20 +34,23 @@
             android:name="com.v.heng.livego.ui.MainActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name="com.v.heng.livego.ui.LiveListActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name="com.v.heng.livego.ui.LiveDetailActivity"
             android:screenOrientation="landscape" />
         <activity
-            android:name="com.v.heng.livego.ui.LiveListActivity"
-            android:screenOrientation="portrait" />
+            android:name="com.v.heng.livego.ui.LiveDetailStreamActivity"
+            android:screenOrientation="landscape" />
+
+        <!-- setting -->
         <activity
             android:name="com.v.heng.livego.ui.RewardActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.v.heng.livego.ui.Wait2developActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name="com.v.heng.livego.ui.RewardActivity"
-            android:screenOrientation="portrait" />
+
 
         <!-- 广告 CHANNEL-->
         <meta-data

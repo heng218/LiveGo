@@ -177,9 +177,7 @@ public class LiveInfoDao {
 //                liveAddress = elements.get(0).getElementsByTag("iframe").attr("src");
                 return liveInfo;
             } else if("虎牙".equals(liveInfo.getLivePlatform())) {
-                Document doc = Jsoup.connect(liveInfo.getLivePage())
-                        .userAgent("Mozilla")
-                        .get();
+                Document doc = Jsoup.connect(liveInfo.getLivePage()).userAgent("Mozilla").get();
                 Elements elements = doc.getElementsByTag("script");
 //                LogUtil.logDEBUG(LiveInfoDao.class, "elements:  " + elements);
                 for (Element element : elements) {
@@ -190,13 +188,13 @@ public class LiveInfoDao {
                         String liveRoom_gid = "";
                         String [] data2 = data.split(";");
                         for (String d : data2) {
-                            LogUtil.logDEBUG(LiveInfoDao.class, "d:  " + d);
+//                            LogUtil.logDEBUG(LiveInfoDao.class, "d:  " + d);
                             if(d.contains("CHTOPID")) {
-                                LogUtil.logDEBUG(LiveInfoDao.class, "d.length:  " + d.length());
-                                LogUtil.logDEBUG(LiveInfoDao.class, "d.indexOf(\"'\"):  " + d.indexOf("'"));
-                                LogUtil.logDEBUG(LiveInfoDao.class, "d.lastIndexOf(\"'\"):  " + d.lastIndexOf("'"));
+//                                LogUtil.logDEBUG(LiveInfoDao.class, "d.length:  " + d.length());
+//                                LogUtil.logDEBUG(LiveInfoDao.class, "d.indexOf(\"'\"):  " + d.indexOf("'"));
+//                                LogUtil.logDEBUG(LiveInfoDao.class, "d.lastIndexOf(\"'\"):  " + d.lastIndexOf("'"));
                                 CHTOPID = d.substring(d.indexOf("'") + 1, d.lastIndexOf("'") );
-                                LogUtil.logDEBUG(LiveInfoDao.class, "CHTOPID:" + CHTOPID);
+//                                LogUtil.logDEBUG(LiveInfoDao.class, "CHTOPID:" + CHTOPID);
                             }
                             if(d.contains("SUBCHID")) {
                                 SUBCHID = d.substring(d.indexOf("'") + 1, d.lastIndexOf("'") );
@@ -204,10 +202,10 @@ public class LiveInfoDao {
                             }
                             if(d.contains("liveRoom_gid")) {
                                 liveRoom_gid = d.substring(d.indexOf("'") + 1, d.lastIndexOf("'") );
-                                LogUtil.logDEBUG(LiveInfoDao.class, "liveRoom_gid:" + liveRoom_gid);
+//                                LogUtil.logDEBUG(LiveInfoDao.class, "liveRoom_gid:" + liveRoom_gid);
                             }
                         }
-                        String liveHtmlData = "<object name=\"flashRoomObj\" width=\"100%\" height=\"100%\"" +
+                        String liveHtmlData = "<object name=\"flashRoomObj\" width=\"100%\" height=\"100%\" " +
                                 " id=\"flashRoomObj\" type=\"application/x-shockwave-flash\" " +
                                 "data=\"http://weblbs.yystatic.com/s/"+CHTOPID+"/"+SUBCHID+"/jsscene.swf\" style=\"visibility: visible;\">\n" +
                                 "<param name=\"quality\" value=\"high\">\n" +
@@ -355,31 +353,33 @@ public class LiveInfoDao {
                 String gameId = object.getString("gameId");
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd.hh");
                 String pv = sdf.format(new Date());
-                String liveHtmlData = "<object type=\"application/x-shockwave-flash\" id=\"BFPlayerID\" data=\"http://dlstatic.cdn.zhanqi.tv/assets/swf/shell.swf?20151021.01\" width=\"100%\" height=\"100%\">\n" +
-                        "<param name=\"menu\" value=\"false\">\n" +
-                        "<param name=\"scale\" value=\"noScale\">\n" +
-                        "<param name=\"allowFullscreen\" value=\"true\">\n" +
-                        "<param name=\"allowScriptAccess\" value=\"always\">\n" +
-                        "<param name=\"allowFullScreenInteractive\" value=\"true\">\n" +
-                        "<param name=\"wmode\" value=\"transparent\"><param name=\"flashvars\" value=\"Servers=eyJsb2ciOnsiaXAiOiIxMTMuMzEuODcuODYiLCJwb3J0IjoxNTAwMX0sImxpc3QiOlt7ImlwIjoiMTEyLjEyNi44NC45MiIsInBvcnQiOjE1MDEwLCJjaGF0cm9vbV9pZCI6ODAsImlkIjo4MH0seyJpcCI6IjExMi4xMjQuNDQuMjA1IiwicG9ydCI6MTUwMTAsImNoYXRyb29tX2lkIjoyMywiaWQiOjIzfSx7ImlwIjoiMTEyLjEyNC42MS4xMDQiLCJwb3J0IjoxNTAxMCwiY2hhdHJvb21faWQiOjQ3LCJpZCI6NDd9LHsiaXAiOiIxMTIuMTI0LjI1LjI0OSIsInBvcnQiOjE1MDEwLCJjaGF0cm9vbV9pZCI6NTcsImlkIjo1N30seyJpcCI6IjEyMS40Mi4xOTUuMTY2IiwicG9ydCI6MTUwMTAsImNoYXRyb29tX2lkIjo2NiwiaWQiOjY2fSx7ImlwIjoiMTE0LjIxNS4xMTcuNjAiLCJwb3J0IjoxNTAxMCwiY2hhdHJvb21faWQiOjI3LCJpZCI6Mjd9LHsiaXAiOiIxMjAuNTUuMTE2LjIxOSIsInBvcnQiOjE1MDEwLCJjaGF0cm9vbV9pZCI6OTgsImlkIjo5OH0seyJpcCI6IjExMi4xMjYuODQuNjYiLCJwb3J0IjoxNTAxMCwiY2hhdHJvb21faWQiOjkzLCJpZCI6OTN9LHsiaXAiOiIxMTUuMjkuMTk0LjE3OSIsInBvcnQiOjE1MDEwLCJjaGF0cm9vbV9pZCI6OTYsImlkIjo5Nn0seyJpcCI6IjEyMC4yNi4xNC43MiIsInBvcnQiOjE1MDEwLCJjaGF0cm9vbV9pZCI6MTAzLCJpZCI6MTAzfSx7ImlwIjoiMTEyLjEyNi44NC42NSIsInBvcnQiOjE1MDEwLCJjaGF0cm9vbV9pZCI6ODMsImlkIjo4M30seyJpcCI6IjQyLjk2LjE0My45IiwicG9ydCI6MTUwMTAsImNoYXRyb29tX2lkIjo5NSwiaWQiOjk1fSx7ImlwIjoiMTIwLjI2LjEzLjIiLCJwb3J0IjoxNTAxMCwiY2hhdHJvb21faWQiOjEwOCwiaWQiOjEwOH0seyJpcCI6IjEyMC4yNi4xMi41NSIsInBvcnQiOjE1MDEwLCJjaGF0cm9vbV9pZCI6MTA3LCJpZCI6MTA3fSx7ImlwIjoiMTE1LjI4LjE3My4zNiIsInBvcnQiOjE1MDEwLCJjaGF0cm9vbV9pZCI6OTQsImlkIjo5NH0seyJpcCI6IjEyMC41NS43Mi4yNTQiLCJwb3J0IjoxNTAxMCwiY2hhdHJvb21faWQiOjQ0LCJpZCI6NDR9LHsiaXAiOiIxMjMuNTYuMTUyLjE4MyIsInBvcnQiOjE1MDEwLCJjaGF0cm9vbV9pZCI6MzEsImlkIjozMX0seyJpcCI6IjEyMC41NS43Mi4xNjQiLCJwb3J0IjoxNTAxMCwiY2hhdHJvb21faWQiOjQzLCJpZCI6NDN9LHsiaXAiOiIxMTUuMjguMTMxLjE5NyIsInBvcnQiOjE1MDEwLCJjaGF0cm9vbV9pZCI6ODQsImlkIjo4NH0seyJpcCI6IjEyMC41NS4xMTcuMTEzIiwicG9ydCI6MTUwMTAsImNoYXRyb29tX2lkIjo5NywiaWQiOjk3fSx7ImlwIjoiMTIxLjQzLjE5Ny4xNTIiLCJwb3J0IjoxNTAxMCwiY2hhdHJvb21faWQiOjQyLCJpZCI6NDJ9LHsiaXAiOiIxMjMuNTYuNDcuMTU1IiwicG9ydCI6MTUwMTAsImNoYXRyb29tX2lkIjo4MSwiaWQiOjgxfSx7ImlwIjoiMTEyLjEyNC4zOC4yMjkiLCJwb3J0IjoxNTAxMCwiY2hhdHJvb21faWQiOjY0LCJpZCI6NjR9LHsiaXAiOiIxMjMuNTcuMjEyLjQ2IiwicG9ydCI6MTUwMTAsImNoYXRyb29tX2lkIjozMywiaWQiOjMzfSx7ImlwIjoiMTEyLjEyNi44NS4xMjQiLCJwb3J0IjoxNTAxMCwiY2hhdHJvb21faWQiOjYxLCJpZCI6NjF9LHsiaXAiOiIxMTIuMTI2Ljg0LjY0IiwicG9ydCI6MTUwMTAsImNoYXRyb29tX2lkIjo5MSwiaWQiOjkxfSx7ImlwIjoiMTIzLjU2LjE1Mi4yNTMiLCJwb3J0IjoxNTAxMCwiY2hhdHJvb21faWQiOjQwLCJpZCI6NDB9LHsiaXAiOiIxMTUuMjkuMjQ1LjE0NCIsInBvcnQiOjE1MDEwLCJjaGF0cm9vbV9pZCI6NzksImlkIjo3OX0seyJpcCI6IjExNS4yOS4yMDEuMjUzIiwicG9ydCI6MTUwMTAsImNoYXRyb29tX2lkIjo4NiwiaWQiOjg2fSx7ImlwIjoiMTgyLjkyLjIzMi4xOTAiLCJwb3J0IjoxNTAxMCwiY2hhdHJvb21faWQiOjkyLCJpZCI6OTJ9LHsiaXAiOiIxMTIuMTI0LjE5LjIwMyIsInBvcnQiOjE1MDEwLCJjaGF0cm9vbV9pZCI6NDYsImlkIjo0Nn0seyJpcCI6IjEyMC4yNi4yLjk4IiwicG9ydCI6MTUwMTAsImNoYXRyb29tX2lkIjoxMDksImlkIjoxMDl9LHsiaXAiOiIxMjAuMjYuNjMuMTc2IiwicG9ydCI6MTUwMTAsImNoYXRyb29tX2lkIjoyMSwiaWQiOjIxfSx7ImlwIjoiMTEyLjEyNC45LjM5IiwicG9ydCI6MTUwMTAsImNoYXRyb29tX2lkIjoyMiwiaWQiOjIyfSx7ImlwIjoiMTIwLjI2LjE2LjM4IiwicG9ydCI6MTUwMTAsImNoYXRyb29tX2lkIjo4NywiaWQiOjg3fSx7ImlwIjoiMTIxLjQzLjE5Ni43NyIsInBvcnQiOjE1MDEwLCJjaGF0cm9vbV9pZCI6NDEsImlkIjo0MX0seyJpcCI6IjEyMy41Ni4xNTIuMTkyIiwicG9ydCI6MTUwMTAsImNoYXRyb29tX2lkIjozMiwiaWQiOjMyfSx7ImlwIjoiMTIwLjI2LjEzLjIxNCIsInBvcnQiOjE1MDEwLCJjaGF0cm9vbV9pZCI6NTgsImlkIjo1OH0seyJpcCI6IjExMi4xMjQuMTAwLjM2IiwicG9ydCI6MTUwMTAsImNoYXRyb29tX2lkIjo3OCwiaWQiOjc4fSx7ImlwIjoiMTIwLjI2LjEzLjc1IiwicG9ydCI6MTUwMTAsImNoYXRyb29tX2lkIjoxMDUsImlkIjoxMDV9LHsiaXAiOiI0Mi45Ni4xNjguOTciLCJwb3J0IjoxNTAxMCwiY2hhdHJvb21faWQiOjY1LCJpZCI6NjV9LHsiaXAiOiIxMjAuMjYuMTYuMTc2IiwicG9ydCI6MTUwMTAsImNoYXRyb29tX2lkIjo4OSwiaWQiOjg5fSx7ImlwIjoiMTIxLjQzLjIzMC44MiIsInBvcnQiOjE1MDEwLCJjaGF0cm9vbV9pZCI6MjQsImlkIjoyNH0seyJpcCI6IjE4Mi45Mi4yMTcuMTQzIiwicG9ydCI6MTUwMTAsImNoYXRyb29tX2lkIjo2MiwiaWQiOjYyfSx7ImlwIjoiMTIzLjU3LjQ2LjIyMyIsInBvcnQiOjE1MDEwLCJjaGF0cm9vbV9pZCI6ODIsImlkIjo4Mn0seyJpcCI6IjIxOC4yNDQuMTI4LjQ4IiwicG9ydCI6MTUwMTAsImNoYXRyb29tX2lkIjo3NiwiaWQiOjc2fSx7ImlwIjoiMTIwLjI2LjAuMTM4IiwicG9ydCI6MTUwMTAsImNoYXRyb29tX2lkIjo1OSwiaWQiOjU5fSx7ImlwIjoiMTEyLjEyNi44NC4yMTQiLCJwb3J0IjoxNTAxMCwiY2hhdHJvb21faWQiOjkwLCJpZCI6OTB9LHsiaXAiOiIxMTUuMjguMjI2LjEzMyIsInBvcnQiOjE1MDEwLCJjaGF0cm9vbV9pZCI6MjksImlkIjoyOX0seyJpcCI6IjExMi4xMjQuNjEuMTA2IiwicG9ydCI6MTUwMTAsImNoYXRyb29tX2lkIjo0OCwiaWQiOjQ4fSx7ImlwIjoiMTE0LjIxNS4xNDQuMTgyIiwicG9ydCI6MTUwMTAsImNoYXRyb29tX2lkIjoyOCwiaWQiOjI4fSx7ImlwIjoiMTIzLjU2LjE0NS45MCIsInBvcnQiOjE1MDEwLCJjaGF0cm9vbV9pZCI6MzQsImlkIjozNH0seyJpcCI6IjEyMy41Ny4xMC4xOTciLCJwb3J0IjoxNTAxMCwiY2hhdHJvb21faWQiOjYwLCJpZCI6NjB9LHsiaXAiOiIxMjAuMjYuMTQuNjIiLCJwb3J0IjoxNTAxMCwiY2hhdHJvb21faWQiOjEwNiwiaWQiOjEwNn0seyJpcCI6IjEyMC4yNi4xNC4zOSIsInBvcnQiOjE1MDEwLCJjaGF0cm9vbV9pZCI6MTA0LCJpZCI6MTA0fSx7ImlwIjoiMTIxLjQyLjE0Mi4xNjAiLCJwb3J0IjoxNTAxMCwiY2hhdHJvb21faWQiOjI2LCJpZCI6MjZ9LHsiaXAiOiIxMTIuMTI0LjIwLjM0IiwicG9ydCI6MTUwMTAsImNoYXRyb29tX2lkIjo0NSwiaWQiOjQ1fSx7ImlwIjoiNDIuOTYuMTU0LjEyOSIsInBvcnQiOjE1MDEwLCJjaGF0cm9vbV9pZCI6ODUsImlkIjo4NX0seyJpcCI6IjE4Mi45Mi4xMjguMjQ5IiwicG9ydCI6MTUwMTAsImNoYXRyb29tX2lkIjo2MywiaWQiOjYzfSx7ImlwIjoiMjE4LjI0NC4xMzAuMjUiLCJwb3J0IjoxNTAxMCwiY2hhdHJvb21faWQiOjg4LCJpZCI6ODh9XX0=&amp;\n" +
-                        "ServerIp=&amp;\n" +
-                        "ServerPort=&amp;\n" +
-                        "ChatRoomId=&amp;\n" +
-                        "VideoLevels=eyJtdWxyYXRlIjpbWyJ3c19saXZlIiwiaGRsIiwiMjM2ODlfWjFDZ3UuZmx2IiwiTElWRSIsIjQiLDEsIiJdXSwicmV2aWV3IjpbWyJ6cV9yZXZpZXciLCJobHMiLCIyMzY4OV9aMUNndVwvcGxheWxpc3QubTN1OCIsIkxJVkUiLCI0IiwxLCIiXV0sIm11bHJhdGVIbHMiOltbIndzX2xpdmUiLCJobHMiLCIyMzY4OV9aMUNndVwvcGxheWxpc3QubTN1OCIsIkxJVkUiLCI0IiwxLCIiXV19&amp;\n" +
-                        "cdns=eyJ2aWQiOiIyMzY4OV9aMUNndSIsImJyb2Nhc3QiOiI0IiwiY2RucyI6IjIxfDMyfDYxIiwicmF0ZSI6IiIsInJldmlldyI6IjEzIiwiYWlkY2RucyI6IjIxfDE0MS0xNTIiLCJvdXRjZG5zIjoiMzJ8MTExIiwiYWsiOiIxLWZBOUxDRXhKT0NoOUp4dHRSbGtXTFE9PXwyLWZBOUxDRXhKT0NoOUp4dHRSbGtXTFE9PXwzLWR3Z1JTMWx1UFNob05WUjhDMWdvRkE9PXw0LWR3Z1JTMWx1UFNob05WUjhDMWdvRkE9PXw1LWVHNXRhSDFtQkF4SWEwNXBTeDBuTGc9PXw2LWVHNXRhSDFtQkF4SWEwNXBTeDBuTGc9PXw3LWFSeHJTd3hFS1NSWFBYSlJEbWN4TXc9PXw4LVJCb1RXWGhqUFM5dU9YZFFmRzBiUGc9PXw5LVJBbFVjQVlTSnhwdEdYWnJTbTRvS3c9PXwxMC18MTEtYVNwYUNsZHBLVHQwS0ZwMURrZ1hPdz09fDEyLWRHcEdBdzUrRUNSM0hIUmpjVThWRWc9PXwxMy1YV3hDZVVkUERTWnhHa0pxWFZNOU53PT18MTQtU1FsdlhFa2FEQjVKWjF0NVVXRU5Idz09fDE1LVNXcEdEa2RaREF4dkszWm9DUjhxR2c9PSIsImFrMiI6IjEtWVNwT0hWeGRSM3hnQWg1NFZrMXBlUT09fDItWVNwT0hWeGRSM3hnQWg1NFZrMXBlUT09fDMtYWkwVVhrbDZRbngxRUZGcEcweFhRQT09fDQtYWkwVVhrbDZRbngxRUZGcEcweFhRQT09fDUtWlV0b2ZXMXllMWhWVGt0OFd3bFllZz09fDYtWlV0b2ZXMXllMWhWVGt0OFd3bFllZz09fDctZERsdVhoeFFWbkJLR0hkRUhuTk9adz09fDgtV1Q4V1RHaDNRbnR6SEhKRmJIbGthZz09fDktV1N4UlpSWUdXRTV3UEhOK1ducFhmdz09fDEwLXwxMS1kQTlmSDBkOVZtOXBEVjlnSGx4b2J3PT18MTItYVU5REZoNXFiM0JxT1hGMllWdHFSZz09fDEzLVFFbEhiRmRiY25Kc1AwZFwvVFVkQ1l3PT18MTQtVkN4cVNWa09jMHBVUWw1c1FYVnlTdz09fDE1LVZFOURHMWROYzFoeURuTjlHUXRWVGc9PSIsImFjYyI6eyJjZG4iOjcyLCJhZGQiOiIiLCJ2dCI6IiIsInBsYXRmb3JtIjoxLCJhc3QiOjEsImFkdCI6IjE6OTAiLCJjc3QiOjAsImNkdCI6IiJ9fQ==&amp;\n" +
-                        "Status=4&amp;\n" +
-                        "RoomId="+ roomId +"&amp;\n" +
-                        "ComLayer=true&amp;\n" +
-                        "VideoTitle="+ anchorTitle +"&amp;\n" +
-                        "WebHost=http://www.zhanqi.tv&amp;\n" +
-                        "VideoType=LIVE&amp;\n" +
-                        "GameId="+ gameId +"&amp;\n" +
-                        "Online="+ viewerNum +"&amp;\n" +
-                        "StarRoom=0&amp;\n" +
-                        "pv="+ pv +"&amp;\n" +
-                        "TuristRate=0&amp;\n" +
-                        "UID=0\">\n" +
-                        "</object>";
+//                String liveHtmlData = "<object type=\"application/x-shockwave-flash\" id=\"BFPlayerID\" data=\"http://dlstatic.cdn.zhanqi.tv/assets/swf/shell.swf?20151021.01\" width=\"100%\" height=\"100%\">\n" +
+//                        "<param name=\"menu\" value=\"false\">\n" +
+//                        "<param name=\"scale\" value=\"noScale\">\n" +
+//                        "<param name=\"allowFullscreen\" value=\"true\">\n" +
+//                        "<param name=\"allowScriptAccess\" value=\"always\">\n" +
+//                        "<param name=\"allowFullScreenInteractive\" value=\"true\">\n" +
+//                        "<param name=\"wmode\" value=\"transparent\"><param name=\"flashvars\" value=\"Servers=eyJsb2ciOnsiaXAiOiIxMTMuMzEuODcuODYiLCJwb3J0IjoxNTAwMX0sImxpc3QiOlt7ImlwIjoiMTEyLjEyNi44NC45MiIsInBvcnQiOjE1MDEwLCJjaGF0cm9vbV9pZCI6ODAsImlkIjo4MH0seyJpcCI6IjExMi4xMjQuNDQuMjA1IiwicG9ydCI6MTUwMTAsImNoYXRyb29tX2lkIjoyMywiaWQiOjIzfSx7ImlwIjoiMTEyLjEyNC42MS4xMDQiLCJwb3J0IjoxNTAxMCwiY2hhdHJvb21faWQiOjQ3LCJpZCI6NDd9LHsiaXAiOiIxMTIuMTI0LjI1LjI0OSIsInBvcnQiOjE1MDEwLCJjaGF0cm9vbV9pZCI6NTcsImlkIjo1N30seyJpcCI6IjEyMS40Mi4xOTUuMTY2IiwicG9ydCI6MTUwMTAsImNoYXRyb29tX2lkIjo2NiwiaWQiOjY2fSx7ImlwIjoiMTE0LjIxNS4xMTcuNjAiLCJwb3J0IjoxNTAxMCwiY2hhdHJvb21faWQiOjI3LCJpZCI6Mjd9LHsiaXAiOiIxMjAuNTUuMTE2LjIxOSIsInBvcnQiOjE1MDEwLCJjaGF0cm9vbV9pZCI6OTgsImlkIjo5OH0seyJpcCI6IjExMi4xMjYuODQuNjYiLCJwb3J0IjoxNTAxMCwiY2hhdHJvb21faWQiOjkzLCJpZCI6OTN9LHsiaXAiOiIxMTUuMjkuMTk0LjE3OSIsInBvcnQiOjE1MDEwLCJjaGF0cm9vbV9pZCI6OTYsImlkIjo5Nn0seyJpcCI6IjEyMC4yNi4xNC43MiIsInBvcnQiOjE1MDEwLCJjaGF0cm9vbV9pZCI6MTAzLCJpZCI6MTAzfSx7ImlwIjoiMTEyLjEyNi44NC42NSIsInBvcnQiOjE1MDEwLCJjaGF0cm9vbV9pZCI6ODMsImlkIjo4M30seyJpcCI6IjQyLjk2LjE0My45IiwicG9ydCI6MTUwMTAsImNoYXRyb29tX2lkIjo5NSwiaWQiOjk1fSx7ImlwIjoiMTIwLjI2LjEzLjIiLCJwb3J0IjoxNTAxMCwiY2hhdHJvb21faWQiOjEwOCwiaWQiOjEwOH0seyJpcCI6IjEyMC4yNi4xMi41NSIsInBvcnQiOjE1MDEwLCJjaGF0cm9vbV9pZCI6MTA3LCJpZCI6MTA3fSx7ImlwIjoiMTE1LjI4LjE3My4zNiIsInBvcnQiOjE1MDEwLCJjaGF0cm9vbV9pZCI6OTQsImlkIjo5NH0seyJpcCI6IjEyMC41NS43Mi4yNTQiLCJwb3J0IjoxNTAxMCwiY2hhdHJvb21faWQiOjQ0LCJpZCI6NDR9LHsiaXAiOiIxMjMuNTYuMTUyLjE4MyIsInBvcnQiOjE1MDEwLCJjaGF0cm9vbV9pZCI6MzEsImlkIjozMX0seyJpcCI6IjEyMC41NS43Mi4xNjQiLCJwb3J0IjoxNTAxMCwiY2hhdHJvb21faWQiOjQzLCJpZCI6NDN9LHsiaXAiOiIxMTUuMjguMTMxLjE5NyIsInBvcnQiOjE1MDEwLCJjaGF0cm9vbV9pZCI6ODQsImlkIjo4NH0seyJpcCI6IjEyMC41NS4xMTcuMTEzIiwicG9ydCI6MTUwMTAsImNoYXRyb29tX2lkIjo5NywiaWQiOjk3fSx7ImlwIjoiMTIxLjQzLjE5Ny4xNTIiLCJwb3J0IjoxNTAxMCwiY2hhdHJvb21faWQiOjQyLCJpZCI6NDJ9LHsiaXAiOiIxMjMuNTYuNDcuMTU1IiwicG9ydCI6MTUwMTAsImNoYXRyb29tX2lkIjo4MSwiaWQiOjgxfSx7ImlwIjoiMTEyLjEyNC4zOC4yMjkiLCJwb3J0IjoxNTAxMCwiY2hhdHJvb21faWQiOjY0LCJpZCI6NjR9LHsiaXAiOiIxMjMuNTcuMjEyLjQ2IiwicG9ydCI6MTUwMTAsImNoYXRyb29tX2lkIjozMywiaWQiOjMzfSx7ImlwIjoiMTEyLjEyNi44NS4xMjQiLCJwb3J0IjoxNTAxMCwiY2hhdHJvb21faWQiOjYxLCJpZCI6NjF9LHsiaXAiOiIxMTIuMTI2Ljg0LjY0IiwicG9ydCI6MTUwMTAsImNoYXRyb29tX2lkIjo5MSwiaWQiOjkxfSx7ImlwIjoiMTIzLjU2LjE1Mi4yNTMiLCJwb3J0IjoxNTAxMCwiY2hhdHJvb21faWQiOjQwLCJpZCI6NDB9LHsiaXAiOiIxMTUuMjkuMjQ1LjE0NCIsInBvcnQiOjE1MDEwLCJjaGF0cm9vbV9pZCI6NzksImlkIjo3OX0seyJpcCI6IjExNS4yOS4yMDEuMjUzIiwicG9ydCI6MTUwMTAsImNoYXRyb29tX2lkIjo4NiwiaWQiOjg2fSx7ImlwIjoiMTgyLjkyLjIzMi4xOTAiLCJwb3J0IjoxNTAxMCwiY2hhdHJvb21faWQiOjkyLCJpZCI6OTJ9LHsiaXAiOiIxMTIuMTI0LjE5LjIwMyIsInBvcnQiOjE1MDEwLCJjaGF0cm9vbV9pZCI6NDYsImlkIjo0Nn0seyJpcCI6IjEyMC4yNi4yLjk4IiwicG9ydCI6MTUwMTAsImNoYXRyb29tX2lkIjoxMDksImlkIjoxMDl9LHsiaXAiOiIxMjAuMjYuNjMuMTc2IiwicG9ydCI6MTUwMTAsImNoYXRyb29tX2lkIjoyMSwiaWQiOjIxfSx7ImlwIjoiMTEyLjEyNC45LjM5IiwicG9ydCI6MTUwMTAsImNoYXRyb29tX2lkIjoyMiwiaWQiOjIyfSx7ImlwIjoiMTIwLjI2LjE2LjM4IiwicG9ydCI6MTUwMTAsImNoYXRyb29tX2lkIjo4NywiaWQiOjg3fSx7ImlwIjoiMTIxLjQzLjE5Ni43NyIsInBvcnQiOjE1MDEwLCJjaGF0cm9vbV9pZCI6NDEsImlkIjo0MX0seyJpcCI6IjEyMy41Ni4xNTIuMTkyIiwicG9ydCI6MTUwMTAsImNoYXRyb29tX2lkIjozMiwiaWQiOjMyfSx7ImlwIjoiMTIwLjI2LjEzLjIxNCIsInBvcnQiOjE1MDEwLCJjaGF0cm9vbV9pZCI6NTgsImlkIjo1OH0seyJpcCI6IjExMi4xMjQuMTAwLjM2IiwicG9ydCI6MTUwMTAsImNoYXRyb29tX2lkIjo3OCwiaWQiOjc4fSx7ImlwIjoiMTIwLjI2LjEzLjc1IiwicG9ydCI6MTUwMTAsImNoYXRyb29tX2lkIjoxMDUsImlkIjoxMDV9LHsiaXAiOiI0Mi45Ni4xNjguOTciLCJwb3J0IjoxNTAxMCwiY2hhdHJvb21faWQiOjY1LCJpZCI6NjV9LHsiaXAiOiIxMjAuMjYuMTYuMTc2IiwicG9ydCI6MTUwMTAsImNoYXRyb29tX2lkIjo4OSwiaWQiOjg5fSx7ImlwIjoiMTIxLjQzLjIzMC44MiIsInBvcnQiOjE1MDEwLCJjaGF0cm9vbV9pZCI6MjQsImlkIjoyNH0seyJpcCI6IjE4Mi45Mi4yMTcuMTQzIiwicG9ydCI6MTUwMTAsImNoYXRyb29tX2lkIjo2MiwiaWQiOjYyfSx7ImlwIjoiMTIzLjU3LjQ2LjIyMyIsInBvcnQiOjE1MDEwLCJjaGF0cm9vbV9pZCI6ODIsImlkIjo4Mn0seyJpcCI6IjIxOC4yNDQuMTI4LjQ4IiwicG9ydCI6MTUwMTAsImNoYXRyb29tX2lkIjo3NiwiaWQiOjc2fSx7ImlwIjoiMTIwLjI2LjAuMTM4IiwicG9ydCI6MTUwMTAsImNoYXRyb29tX2lkIjo1OSwiaWQiOjU5fSx7ImlwIjoiMTEyLjEyNi44NC4yMTQiLCJwb3J0IjoxNTAxMCwiY2hhdHJvb21faWQiOjkwLCJpZCI6OTB9LHsiaXAiOiIxMTUuMjguMjI2LjEzMyIsInBvcnQiOjE1MDEwLCJjaGF0cm9vbV9pZCI6MjksImlkIjoyOX0seyJpcCI6IjExMi4xMjQuNjEuMTA2IiwicG9ydCI6MTUwMTAsImNoYXRyb29tX2lkIjo0OCwiaWQiOjQ4fSx7ImlwIjoiMTE0LjIxNS4xNDQuMTgyIiwicG9ydCI6MTUwMTAsImNoYXRyb29tX2lkIjoyOCwiaWQiOjI4fSx7ImlwIjoiMTIzLjU2LjE0NS45MCIsInBvcnQiOjE1MDEwLCJjaGF0cm9vbV9pZCI6MzQsImlkIjozNH0seyJpcCI6IjEyMy41Ny4xMC4xOTciLCJwb3J0IjoxNTAxMCwiY2hhdHJvb21faWQiOjYwLCJpZCI6NjB9LHsiaXAiOiIxMjAuMjYuMTQuNjIiLCJwb3J0IjoxNTAxMCwiY2hhdHJvb21faWQiOjEwNiwiaWQiOjEwNn0seyJpcCI6IjEyMC4yNi4xNC4zOSIsInBvcnQiOjE1MDEwLCJjaGF0cm9vbV9pZCI6MTA0LCJpZCI6MTA0fSx7ImlwIjoiMTIxLjQyLjE0Mi4xNjAiLCJwb3J0IjoxNTAxMCwiY2hhdHJvb21faWQiOjI2LCJpZCI6MjZ9LHsiaXAiOiIxMTIuMTI0LjIwLjM0IiwicG9ydCI6MTUwMTAsImNoYXRyb29tX2lkIjo0NSwiaWQiOjQ1fSx7ImlwIjoiNDIuOTYuMTU0LjEyOSIsInBvcnQiOjE1MDEwLCJjaGF0cm9vbV9pZCI6ODUsImlkIjo4NX0seyJpcCI6IjE4Mi45Mi4xMjguMjQ5IiwicG9ydCI6MTUwMTAsImNoYXRyb29tX2lkIjo2MywiaWQiOjYzfSx7ImlwIjoiMjE4LjI0NC4xMzAuMjUiLCJwb3J0IjoxNTAxMCwiY2hhdHJvb21faWQiOjg4LCJpZCI6ODh9XX0=&amp;\n" +
+//                        "ServerIp=&amp;\n" +
+//                        "ServerPort=&amp;\n" +
+//                        "ChatRoomId=&amp;\n" +
+//                        "VideoLevels=eyJtdWxyYXRlIjpbWyJ3c19saXZlIiwiaGRsIiwiMjM2ODlfWjFDZ3UuZmx2IiwiTElWRSIsIjQiLDEsIiJdXSwicmV2aWV3IjpbWyJ6cV9yZXZpZXciLCJobHMiLCIyMzY4OV9aMUNndVwvcGxheWxpc3QubTN1OCIsIkxJVkUiLCI0IiwxLCIiXV0sIm11bHJhdGVIbHMiOltbIndzX2xpdmUiLCJobHMiLCIyMzY4OV9aMUNndVwvcGxheWxpc3QubTN1OCIsIkxJVkUiLCI0IiwxLCIiXV19&amp;\n" +
+//                        "cdns=eyJ2aWQiOiIyMzY4OV9aMUNndSIsImJyb2Nhc3QiOiI0IiwiY2RucyI6IjIxfDMyfDYxIiwicmF0ZSI6IiIsInJldmlldyI6IjEzIiwiYWlkY2RucyI6IjIxfDE0MS0xNTIiLCJvdXRjZG5zIjoiMzJ8MTExIiwiYWsiOiIxLWZBOUxDRXhKT0NoOUp4dHRSbGtXTFE9PXwyLWZBOUxDRXhKT0NoOUp4dHRSbGtXTFE9PXwzLWR3Z1JTMWx1UFNob05WUjhDMWdvRkE9PXw0LWR3Z1JTMWx1UFNob05WUjhDMWdvRkE9PXw1LWVHNXRhSDFtQkF4SWEwNXBTeDBuTGc9PXw2LWVHNXRhSDFtQkF4SWEwNXBTeDBuTGc9PXw3LWFSeHJTd3hFS1NSWFBYSlJEbWN4TXc9PXw4LVJCb1RXWGhqUFM5dU9YZFFmRzBiUGc9PXw5LVJBbFVjQVlTSnhwdEdYWnJTbTRvS3c9PXwxMC18MTEtYVNwYUNsZHBLVHQwS0ZwMURrZ1hPdz09fDEyLWRHcEdBdzUrRUNSM0hIUmpjVThWRWc9PXwxMy1YV3hDZVVkUERTWnhHa0pxWFZNOU53PT18MTQtU1FsdlhFa2FEQjVKWjF0NVVXRU5Idz09fDE1LVNXcEdEa2RaREF4dkszWm9DUjhxR2c9PSIsImFrMiI6IjEtWVNwT0hWeGRSM3hnQWg1NFZrMXBlUT09fDItWVNwT0hWeGRSM3hnQWg1NFZrMXBlUT09fDMtYWkwVVhrbDZRbngxRUZGcEcweFhRQT09fDQtYWkwVVhrbDZRbngxRUZGcEcweFhRQT09fDUtWlV0b2ZXMXllMWhWVGt0OFd3bFllZz09fDYtWlV0b2ZXMXllMWhWVGt0OFd3bFllZz09fDctZERsdVhoeFFWbkJLR0hkRUhuTk9adz09fDgtV1Q4V1RHaDNRbnR6SEhKRmJIbGthZz09fDktV1N4UlpSWUdXRTV3UEhOK1ducFhmdz09fDEwLXwxMS1kQTlmSDBkOVZtOXBEVjlnSGx4b2J3PT18MTItYVU5REZoNXFiM0JxT1hGMllWdHFSZz09fDEzLVFFbEhiRmRiY25Kc1AwZFwvVFVkQ1l3PT18MTQtVkN4cVNWa09jMHBVUWw1c1FYVnlTdz09fDE1LVZFOURHMWROYzFoeURuTjlHUXRWVGc9PSIsImFjYyI6eyJjZG4iOjcyLCJhZGQiOiIiLCJ2dCI6IiIsInBsYXRmb3JtIjoxLCJhc3QiOjEsImFkdCI6IjE6OTAiLCJjc3QiOjAsImNkdCI6IiJ9fQ==&amp;\n" +
+//                        "Status=4&amp;\n" +
+//                        "RoomId="+ roomId +"&amp;\n" +
+//                        "ComLayer=true&amp;\n" +
+//                        "VideoTitle="+ anchorTitle +"&amp;\n" +
+//                        "WebHost=http://www.zhanqi.tv&amp;\n" +
+//                        "VideoType=LIVE&amp;\n" +
+//                        "GameId="+ gameId +"&amp;\n" +
+//                        "Online="+ viewerNum +"&amp;\n" +
+//                        "StarRoom=0&amp;\n" +
+//                        "pv="+ pv +"&amp;\n" +
+//                        "TuristRate=0&amp;\n" +
+//                        "UID=0\">\n" +
+//                        "</object>";
+
+                String liveStream = "http://dlhls.cdn.zhanqi.tv/zqlive/"+roomId+"_"+liveIcon.split("_")[1]+".m3u8";
 
                 LogUtil.logINFO(LiveInfoDao.class, "anchorTitle: " + anchorTitle);
                 LogUtil.logINFO(LiveInfoDao.class, "liveIcon: " + liveIcon);
@@ -388,7 +388,7 @@ public class LiveInfoDao {
                 LogUtil.logINFO(LiveInfoDao.class, "anchorName: " + anchorName);
                 LogUtil.logINFO(LiveInfoDao.class, "livePlatform: " + livePlatform);
                 LogUtil.logINFO(LiveInfoDao.class, "gameSort: " + gameSort);
-                LogUtil.logINFO(LiveInfoDao.class, "liveHtmlData: " + liveHtmlData);
+//                LogUtil.logINFO(LiveInfoDao.class, "liveHtmlData: " + liveHtmlData);
 
                 LiveInfo liveInfo = new LiveInfo();
                 liveInfo.setAnchorTitle(anchorTitle);
@@ -399,7 +399,8 @@ public class LiveInfoDao {
                 liveInfo.setLivePlatform(livePlatform);
                 liveInfo.setAnchorIcon(anchorIcon);
                 liveInfo.setGameSort(gameSort);
-                liveInfo.setLiveHtmlData(liveHtmlData);
+//                liveInfo.setLiveHtmlData(liveHtmlData);
+                liveInfo.setLiveStream(liveStream);
                 liveInfos.add(liveInfo);
             }
 

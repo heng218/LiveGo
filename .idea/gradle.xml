@@ -14,6 +14,7 @@
             <option value="$PROJECT_DIR$/library_dialog" />
             <option value="$PROJECT_DIR$/library_listview_gridview" />
             <option value="$PROJECT_DIR$/library_menu_title" />
+            <option value="$PROJECT_DIR$/library_vitamio" />
           </set>
         </option>
       </GradleProjectSettings>

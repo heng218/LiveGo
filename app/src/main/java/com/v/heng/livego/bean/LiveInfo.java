@@ -29,12 +29,22 @@ public class LiveInfo implements Serializable{
     private String liveAddress;
     // 直播地址_htmlData
     private String liveHtmlData;
+    // 直播地址_stream
+    private String liveStream;
     // 直播缩略图
     private String liveIcon;
 
 
 
 
+
+    public String getLiveStream() {
+        return liveStream;
+    }
+
+    public void setLiveStream(String liveStream) {
+        this.liveStream = liveStream;
+    }
 
     public String getLiveHtmlData() {
         return liveHtmlData;

@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.v.heng.livego.R;
 import com.v.heng.livego.bean.LiveInfo;
 import com.v.heng.livego.ui.LiveDetailActivity;
-import com.v.heng.livego.ui.Wait2developActivity;
+import com.v.heng.livego.ui.LiveDetailStreamActivity;
 import com.v.heng.livego.utils.ImageManager;
 
 import java.util.List;
@@ -115,7 +115,8 @@ public class LiveListAdapter extends BaseAdapter {
         @Override
         public void onClick(View view) {
             if("战旗".equals(liveInfo.getLivePlatform())) {
-                Intent intent = new Intent(context, Wait2developActivity.class);
+                Intent intent = new Intent(context, LiveDetailStreamActivity.class);
+                intent.putExtra("LiveInfo", liveInfo);
                 context.startActivity(intent);
             } else {
                 Intent intent = new Intent(context, LiveDetailActivity.class);
