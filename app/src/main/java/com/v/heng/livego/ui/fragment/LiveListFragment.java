@@ -109,7 +109,6 @@ public class LiveListFragment extends Fragment {
 			// 将广告条加入到布局中
 			adLayout.addView(adView);
 		}
-
 	}
 
 	public void setData() {

@@ -112,7 +112,7 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
     @Override
     public void startActivity(Intent intent) {
         super.startActivity(intent);
-        // overridePendingTransition(R.anim.left_scale_a, R.anim.alpha_a);
+         overridePendingTransition(R.anim.left_scale_a, R.anim.alpha_a);
     }
 
     public void startActivity(Intent intent, int enterAnim, int exitAnim) {
@@ -123,13 +123,13 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
     @Override
     public void startActivityForResult(Intent intent, int requestCode) {
         super.startActivityForResult(intent, requestCode);
-        // overridePendingTransition(R.anim.left_scale_a, R.anim.alpha_a);
+//         overridePendingTransition(R.anim.left_scale_a, R.anim.alpha_a);
     }
 
     @Override
     public void finish() {
         super.finish();
-        // overridePendingTransition(R.anim.alpha_b, R.anim.left_scale_b);
+         overridePendingTransition(R.anim.alpha_b, R.anim.left_scale_b);
     }
 
     public void finish(int enterAnim, int exitAnim) {

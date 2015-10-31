@@ -30,16 +30,29 @@ public class WelcomeActivity extends BaseActivity {
 
         initView();
 
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-            if(AppManager.getAppManager().getActivity(MainActivity.class) == null) {
-                Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
-            }
-            }
-        }, 4000);
+        if ("youmi".equals(Utils.getMetaData(this, "AD_CHANNEL"))) {
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if(AppManager.getAppManager().getActivity(MainActivity.class) == null) {
+                        Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                }
+            }, 6000);
+        } else {
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if(AppManager.getAppManager().getActivity(MainActivity.class) == null) {
+                        Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                }
+            }, 3000);
+        }
 
     }
 

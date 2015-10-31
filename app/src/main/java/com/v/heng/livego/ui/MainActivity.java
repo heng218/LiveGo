@@ -46,6 +46,9 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         super.onCreate(savedInstanceState);
         setBaseContentView(R.layout.activity_main);
 
+        // 结束welcome Activity
+        AppManager.getAppManager().finishActivity(WelcomeActivity.class);
+
         initTitle();
 
         initViews();

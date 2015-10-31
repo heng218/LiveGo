@@ -67,7 +67,12 @@ public class LiveDetailStreamActivity extends BaseActivity implements MediaPlaye
     protected void onResume() {
         super.onResume();
 
-        initAds();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                initAds();
+            }
+        }, 1000);
     }
 
     @Override
@@ -79,9 +84,10 @@ public class LiveDetailStreamActivity extends BaseActivity implements MediaPlaye
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         releaseMediaPlayer();
         doCleanUp();
+
+        super.onDestroy();
     }
 
     public void initTitle() {
@@ -96,7 +102,7 @@ public class LiveDetailStreamActivity extends BaseActivity implements MediaPlaye
         holder.setFormat(PixelFormat.RGBA_8888);
         extras = getIntent().getExtras();
 
-        progressDialog = showProgressDialog(this,"",false);
+        progressDialog = showProgressDialog(this,"", true);
     }
 
 

@@ -40,11 +40,14 @@
 
 
 #-libraryjars libs/android-async-http-1.4.6.jar
--libraryjars libs/android-support-v4.jar
--libraryjars libs/jsoup-1.8.3.jar
--libraryjars libs/umeng-update-v2.6.0.1.jar
+#-libraryjars libs/android-support-v4.jar
+#-libraryjars libs/jsoup-1.8.3.jar
+#-libraryjars libs/umeng-update-v2.6.0.1.jar
 -keep class com.loopj.android.http.** { *; }
 -keep class android.support.v4.** { *; }
+-keep class org.jsoup.** { *; }
+-keep class io.vov.utils.** { *; }
+-keep class io.vov.vitamio.** { *; }
 
 # umeng
 -keepclassmembers class * {
@@ -60,6 +63,7 @@
 -dontwarn org.apache.commons.**
 -keep public class * extends com.umeng.**
 -keep class com.umeng.** {*; }
+-keep class com.alimama.mobile.** {*; }
 
 -keepclassmembers enum * {
     public static **[] values();
@@ -68,12 +72,7 @@
 -keep class * implements android.os.Parcelable {
     public static final android.os.Parcelable$Creator *;
 }
--keepclassmembers class **.R$* {
-    public static ;
-}
 
 -dontwarn net.youmi.android.**
--keep class net.youmi.android.** {
-    *;
-}
+-keep class net.youmi.android.** {*;}
 

@@ -45,8 +45,8 @@ public class CommonProgressDialog extends Dialog {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event)
 	{
-		if(onBackCancel && keyCode==KeyEvent.KEYCODE_BACK)
-			return false;
+		if(!onBackCancel && keyCode==KeyEvent.KEYCODE_BACK)
+			return true;
 		return super.onKeyDown(keyCode, event);
 	}
 	
